@@ -1,0 +1,8 @@
+{
+  "name": "deep-mock",
+  "version": "0.0.1",
+  "description": "Painlessly create deeply nested mocks.",
+  "main": "index.js",
+  "author": "Dustin Rohde",
+  "license": "MIT"
+}
