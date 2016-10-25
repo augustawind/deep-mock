@@ -1,5 +1,4 @@
 'use strict';
-
 function compile(value) {
     if (!(value instanceof Value))
         return value;
@@ -16,6 +15,13 @@ var Obj = function Obj(value) {
 
 var Arr = function Arr(value) {
     return new ArrayType(value);
+};
+
+function Value(value) {
+    this.value = value;
+}
+Value.prototype.compile = function () {
+    return this.value;
 };
 
 function FunctionType(value) {
@@ -51,20 +57,13 @@ function ArrayType(value) {
 inherit(ArrayType, Value, {
     compile: function () {
         return this.value.map(function (item) {
-            return compile(item)
+            return compile(item);
         });
     }
 });
 
-function Value(value) {
-    this.value = value;
-}
-Value.prototype.compile = function () {
-    return this.value;
-};
-
 function inherit(subclass, superclass, methods) {
-    methods = methods || {}
+    methods = methods || {};
 
     subclass.prototype = Object.create(superclass.prototype);
     subclass.prototype.constructor = superclass;
@@ -82,15 +81,15 @@ function inherit(subclass, superclass, methods) {
     }
 }
 
-function isObject(value) {
-    return value instanceof Object
-        && typeof value === 'object'
-        && !isArray(value);
-}
-
-function isArray(value) {
-    return Object.prototype.toString.call(value) === '[object Array]';
-}
+// function isObject(value) {
+//     return value instanceof Object
+//         && typeof value === 'object'
+//         && !isArray(value);
+// }
+//
+// function isArray(value) {
+//     return Object.prototype.toString.call(value) === '[object Array]';
+// }
 
 module.exports = {
     compile: compile,

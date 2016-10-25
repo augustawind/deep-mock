@@ -1,0 +1,33 @@
+env:
+  node: true
+  jest: true
+
+extends: 'eslint:recommended'
+
+rules:
+    indent:
+        - error
+        - 4
+        - SwitchCase: 1
+    linebreak-style:
+        - error
+        - unix
+    max-len:
+        - error
+        - 80
+    no-console:
+        - error
+        - allow:
+            - warn
+            - error
+    no-else-return: error
+    object-curly-spacing:
+        - error
+        - always
+    prefer-const: error
+    quotes:
+        - error
+        - single
+    semi:
+        - error
+        - always

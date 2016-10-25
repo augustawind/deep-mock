@@ -6,7 +6,13 @@
   "author": "Dustin Rohde",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^3.8.1",
     "jest": "^16.0.2"
+  },
+  "scripts": {
+    "lint": "eslint deep-mock*.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "jest": {
     "moduleDirectories": [
