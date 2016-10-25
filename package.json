@@ -10,7 +10,7 @@
     "jest": "^16.0.2"
   },
   "scripts": {
-    "lint": "eslint deep-mock*.js",
+    "lint": "eslint deep-mock.js deep-mock.spec.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
