@@ -47,3 +47,21 @@ describe('FunctionType#compile', () => {
         expect(mock2()()).toEqual(11)
     })
 })
+
+describe('ObjectType#compile', () => {
+
+    it('should recursively compile the given value', () => {
+        const mock1 = dm.deepMock(new dm.ObjectType({
+            foo: 5,
+            bar: new dm.FunctionType(false),
+            quux: new dm.ObjectType({
+                bing: 'gnib',
+                bif: new dm.FunctionType('bif')
+            })
+        }))
+        expect(mock1.foo).toEqual(5)
+        expect(mock1.bar()).toEqual(false)
+        expect(mock1.quux.bing).toEqual('gnib')
+        expect(mock1.quux.bif()).toEqual('bif')
+    })
+})
