@@ -4,5 +4,16 @@
   "description": "Painlessly create deeply nested mocks.",
   "main": "index.js",
   "author": "Dustin Rohde",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^16.0.2"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "testEnvironment": "node",
+    "testRegex": ".*\\.spec\\.js$",
+    "verbose": true
+  }
 }
