@@ -22,7 +22,7 @@ function inherit(subclass, superclass, methods) {
 function Value(value) {
     this.value = value;
 }
-Value.prototype.compile = function compile() {
+Value.prototype.compile = function () {
     return this.value;
 };
 
@@ -30,8 +30,8 @@ function FunctionType(value) {
     Value.call(this, value);
 }
 inherit(FunctionType, Value, {
-    compile: function compile() {
-        var retVal = deepMock(this.value);
+    compile: function () {
+        var retVal = compile(this.value);
         return function () {
             return retVal;
         };
@@ -42,11 +42,11 @@ function ObjectType(value) {
     Value.call(this, value);
 }
 inherit(ObjectType, Value, {
-    compile: function compile() {
+    compile: function () {
         var mockObject = {};
         for (var key in this.value) {
             if (this.value.hasOwnProperty(key)) {
-                mockObject[key] = deepMock(this.value[key])
+                mockObject[key] = compile(this.value[key]);
             }
         }
         return mockObject;
@@ -56,49 +56,15 @@ inherit(ObjectType, Value, {
 function ArrayType(value) {
     Value.call(this, value);
 }
-// inherit(ArrayType, Value);
-//
-//     switch (value.type) {
-//         case 'function':
-//
-//         case 'object':
-//             return (function () {
-//                 var object = value.value
-//                 var mockObject = {};
-//                 for (var key in object) {
-//                     if (value.value.hasOwnProperty(key)) {
-//                         mockObject[key] = deepMock(value.value[key])
-//                     }
-//                 }
-//                 return mock;
-//             })()
-//
-//         case 'array':
-//             return value.value.map(function (item) {
-//                 return deepMock(item)
-//             });
-//
-//         // NOTE: Experimental
-//         case 'promise':
-//             return (function () {
-//                 var thenVal = deepMock(value.value);
-//
-//                 return {
-//                     then: function (handler) {
-//                         return Prom(handler(thenVal));
-//                     },
-//                     catch: function (handler) {
-//                         handler();
-//                         return Prom();
-//                     }
-//                 }
-//             })
+inherit(ArrayType, Value, {
+    compile: function () {
+        return this.value.map(function (item) {
+            return compile(item)
+        });
+    }
+});
 
-// function Prom(value) {
-//     return new Value('promise', value);
-// }
-
-function deepMock(value) {
+function compile(value) {
     if (!(value instanceof Value))
         return value;
     return value.compile();
@@ -115,7 +81,7 @@ function isArray(value) {
 }
 
 module.exports = {
-    deepMock: deepMock,
+    compile: compile,
     Value: Value,
     FunctionType: FunctionType,
     ObjectType: ObjectType,
