@@ -1,29 +1,21 @@
 'use strict';
 
-function inherit(subclass, superclass, methods) {
-    methods = methods || {}
-
-    subclass.prototype = Object.create(superclass.prototype);
-    subclass.prototype.constructor = superclass;
-
-    // Assign methods to subclass prototype
-    for (var methodName in methods) {
-        if (methods.hasOwnProperty(methodName))
-            subclass.prototype[methodName] = methods[methodName];
-    }
-
-    // Inherit class properties from superclass
-    for (var property in superclass) {
-        if (superclass.hasOwnProperty(property))
-            subclass[property] = superclass[property];
-    }
+function compile(value) {
+    if (!(value instanceof Value))
+        return value;
+    return value.compile();
 }
 
-function Value(value) {
-    this.value = value;
-}
-Value.prototype.compile = function () {
-    return this.value;
+var Fun = function Fun(value) {
+    return new FunctionType(value);
+};
+
+var Obj = function Obj(value) {
+    return new ObjectType(value);
+};
+
+var Arr = function Arr(value) {
+    return new ArrayType(value);
 };
 
 function FunctionType(value) {
@@ -64,10 +56,30 @@ inherit(ArrayType, Value, {
     }
 });
 
-function compile(value) {
-    if (!(value instanceof Value))
-        return value;
-    return value.compile();
+function Value(value) {
+    this.value = value;
+}
+Value.prototype.compile = function () {
+    return this.value;
+};
+
+function inherit(subclass, superclass, methods) {
+    methods = methods || {}
+
+    subclass.prototype = Object.create(superclass.prototype);
+    subclass.prototype.constructor = superclass;
+
+    // Assign methods to subclass prototype
+    for (var methodName in methods) {
+        if (methods.hasOwnProperty(methodName))
+            subclass.prototype[methodName] = methods[methodName];
+    }
+
+    // Inherit class properties from superclass
+    for (var property in superclass) {
+        if (superclass.hasOwnProperty(property))
+            subclass[property] = superclass[property];
+    }
 }
 
 function isObject(value) {
@@ -82,6 +94,14 @@ function isArray(value) {
 
 module.exports = {
     compile: compile,
+
+    Fun: Fun,
+    F: Fun,
+    Obj: Obj,
+    O: Obj,
+    Arr: Arr,
+    A: Arr,
+
     Value: Value,
     FunctionType: FunctionType,
     ObjectType: ObjectType,
