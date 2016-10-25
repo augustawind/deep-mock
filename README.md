@@ -2,6 +2,44 @@
 
 Painlessly create deeply nested mocks for testing.
 
+## Synopsis
+
+deep-mock turns code like this:
+
+```javascript
+var mockedObject = {
+    foo: function() {
+        return {
+            bar: function() {
+                return {
+                    bif: 'abcd'
+                }
+            }
+        }
+    },
+    baz: function() {
+        return {
+            quux: 1234
+        }
+    }
+}
+```
+
+...into this:
+
+```javascript
+var mockedObject = Obj({
+    foo: Fun(Obj({
+        bar: Fun(Obj({
+            bif: 'abcd'
+        }))
+    })),
+    baz: Fun(Obj({
+        quux: 1234
+    }))
+})
+```
+
 ## Example
 
 ```javascript
