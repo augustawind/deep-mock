@@ -1,7 +1,13 @@
 'use strict';
-var dm = require('./deep-mock');
+var dm = require('../src/deep-mock');
 
-describe('compile()', function () {
+describe('automock', function () {
+    it('should mock stuff automatically', function () {
+	
+    })
+})
+
+describe('compile', function () {
 
     it('when given a literal value, should return it unaltered', function () {
         var mock1 = dm.compile(5);

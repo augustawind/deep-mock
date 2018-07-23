@@ -24,6 +24,18 @@
  */
 'use strict';
 
+// x =
+//     {
+// 	doStuff: ['function', {
+// 	    otherStuff: ['function', {
+// 		bob: 5,
+// 		bill: "lol",
+// 	    }],
+// 	}],
+//     }
+
+
+
 function compile(value) {
     if (!(value instanceof Value))
         return value;
